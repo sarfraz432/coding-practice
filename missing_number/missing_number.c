@@ -8,13 +8,14 @@
 
 int check_missing_number(int *array, int size){
     int i = 0, sum = 0, needed_sum;
-    int actual_count = array[0];
     for (i = 0;  i < size; i++){
         sum += array[i];
-        if (array[i] > actual_count)
-            actual_count = array[i];
     }
-    needed_sum = (actual_count * (actual_count + 1))/2;
+    int n = size + 1;
+    needed_sum = (n * (n + 1))/2;
+    if (n == needed_sum - sum){
+        return 0;
+    }
     return needed_sum - sum;
 }
 
