@@ -13,7 +13,7 @@ int check_missing_number(int *array, int size){
     }
     int n = size + 1;
     needed_sum = (n * (n + 1))/2;
-    if (n == needed_sum - sum){
+    if (n == needed_sum - sum){                                     
         return 0;
     }
     return needed_sum - sum;
