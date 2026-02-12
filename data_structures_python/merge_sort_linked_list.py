@@ -27,23 +27,56 @@ class LinkedList:
         print("")
 
     def findMiddleNode(self):
-        if self.head != None:
-            slow = self.head
-            fast = self.head
-
-            while fast != None:
-                slow = slow.next
-                fast = fast.next
-                if fast:
-                    fast = fast.next
-            return slow
-        return None
+        if not self.head:
+            return None
+        slow = self.head
+        fast = self.head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+    def split_in_half(self, head):
+        """Split list starting at `head` into two halves.
+        Returns (left_head, right_head).
+        """
+        if not head or not head.next:
+            return head, None
+        prev = None
+        slow = head
+        fast = head
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
+        # slow is start of right half; cut the list
+        prev.next = None
+        left = head
+        right = slow
+        return left, right
+    def _merge_sorted(self, l1, l2):
+        dummy = Node(0)
+        tail = dummy
+        a, b = l1, l2
+        while a and b:
+            if a.data <= b.data:
+                tail.next = a
+                a = a.next
+            else:
+                tail.next = b
+                b = b.next
+            tail = tail.next
+        tail.next = a if a else b
+        return dummy.next
+    def _merge_sort(self, head):
+        if not head or not head.next:
+            return head
+        left, right = self.split_in_half(head)
+        left_sorted = self._merge_sort(left)
+        right_sorted = self._merge_sort(right)
+        return self._merge_sorted(left_sorted, right_sorted)
     def merge_sort(self):
-        if list1 != None:
-            # find middle node to split in half
-            middle = self.findMiddleNode()
-            if middle:
-                print(middle.data)
+        # Sort the linked list in-place and update `self.head`.
+        self.head = self._merge_sort(self.head)
 
 if __name__ == "__main__":
     list1 = LinkedList()
